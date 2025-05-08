@@ -2,28 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Google Search Builder</title>
 </head>
 <body>
   <h1>Google Search Builder</h1>
-  <label for="name">Name:</label>
-  <input type="text" id="name" placeholder="e.g. Ian Colle" required />
-  <button onclick="doSearch()">Search</button>
+  <form id="searchForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" placeholder="e.g. Ian Colle" required />
+    <button type="submit">Search</button>
+  </form>
 
   <script>
     const keywords = `antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR whistleblower`;
 
-    function doSearch() {
+    document.getElementById("searchForm").addEventListener("submit", function (event) {
+      event.preventDefault();
       const name = document.getElementById("name").value.trim();
       if (!name) {
         alert("Please enter a name.");
         return;
       }
-      const query = `"${name}" AND (${keywords})`;
+      const query = `"${name}" AND ${keywords}`;
       const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
       window.open(url, "_blank");
-    }
+    });
   </script>
 </body>
 </html>

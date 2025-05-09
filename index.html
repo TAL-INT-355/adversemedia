@@ -1,92 +1,23 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Search Tool</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      max-width: 700px;
-      margin: auto;
-    }
-    .search-section {
-      margin-bottom: 40px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input {
-      padding: 10px;
-      margin-bottom: 10px;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 5px;
-    }
-  </style>
+  <title>Simple Google Search</title>
 </head>
 <body>
-
-  <h2>Search 1: Name Only</h2>
-  <div class="search-section">
-    <label for="nameOnly">Full Name</label>
-    <input type="text" id="nameOnly" placeholder="e.g. Ian Colle" required />
-    <button onclick="performNameSearch()">Search</button>
-  </div>
-
-  <h2>Search 2: Name + Context</h2>
-  <div class="search-section">
-    <label for="nameWithContext">Full Name</label>
-    <input type="text" id="nameWithContext" placeholder="e.g. Ian Colle" required />
-
-    <label for="context">Context (Company or Location)</label>
-    <input type="text" id="context" placeholder="e.g. Raytheon" />
-
-    <button onclick="performContextSearch()">Search</button>
-  </div>
+  <h2>Test Search</h2>
+  <input type="text" id="searchTerm" placeholder="Type name..." />
+  <button onclick="searchGoogle()">Search</button>
 
   <script>
-    const keywords = '(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)';
-
-    function performNameSearch() {
-      const name = document.getElementById('nameOnly').value.trim();
+    function searchGoogle() {
+      const name = document.getElementById('searchTerm').value.trim();
       if (!name) return alert('Please enter a name.');
+      const keywords = '(fraud OR arrest OR investigation)';
       const query = `"${name}" AND ${keywords}`;
       const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       window.open(url, '_blank');
     }
-
-    function performContextSearch() {
-      const name = document.getElementById('nameWithContext').value.trim();
-      const context = document.getElementById('context').value.trim();
-      if (!name) return alert('Please enter a name.');
-      const fullQuery = context ? `${name} ${context}` : name;
-      const query = `"${fullQuery}" AND ${keywords}`;
-      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-      window.open(url, '_blank');
-    }
-
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Enter') {
-        const activeElement = document.activeElement;
-        if (activeElement.id === 'nameOnly') {
-          event.preventDefault();
-          performNameSearch();
-        } else if (
-          activeElement.id === 'nameWithContext' ||
-          activeElement.id === 'context'
-        ) {
-          event.preventDefault();
-          performContextSearch();
-        }
-      }
-    });
   </script>
 </body>
 </html>

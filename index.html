@@ -1,51 +1,88 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Google Search Tool</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Google Search Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f4f4f4;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    h2 {
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-  <h2>Search by Name Only</h2>
-  <input type="text" id="nameOnly" placeholder="Enter name" />
-  <button onclick="searchByName()">Search</button>
+  <div class="container">
+    <h1>Google Search Builder</h1>
 
-  <h2>Search by Name and Context</h2>
-  <input type="text" id="name" placeholder="Enter name" />
-  <input type="text" id="context" placeholder="Enter context (e.g., company or location)" />
-  <button onclick="searchByNameAndContext()">Search</button>
+    <!-- First Search (Name Only) -->
+    <label for="name1">Name:</label>
+    <input type="text" id="name1" placeholder="e.g. Ian Colle" />
+    <button onclick="searchGoogle('name1')">Search</button>
+
+    <!-- Second Search (Name + Context) -->
+    <h2>Search with Name and Context</h2>
+    <label for="name2">Name:</label>
+    <input type="text" id="name2" placeholder="e.g. Ian Colle" />
+    <label for="context">Context (Company or Location):</label>
+    <input type="text" id="context" placeholder="e.g. Denver" />
+    <button onclick="searchGoogle('name2', 'context')">Search</button>
+  </div>
 
   <script>
     const keywords = '(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)';
 
-    function searchByName() {
-      const name = document.getElementById('nameOnly').value.trim();
-      if (!name) {
-        alert('Please enter a name.');
-        return;
-      }
-      const query = `"${name}" AND ${keywords}`;
-      const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
+    function searchGoogle(nameId, contextId = null) {
+      const name = document.getElementById(nameId).value.trim();
+      const context = contextId ? document.getElementById(contextId).value.trim() : '';
+      if (!name) return;
+
+      let query = `"${name}"`;
+      if (context) query += ` "${context}"`;
+      query += ` AND ${keywords}`;
+      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
       window.open(url, '_blank');
     }
 
-    function searchByNameAndContext() {
-      const name = document.getElementById('name').value.trim();
-      const context = document.getElementById('context').value.trim();
-      if (!name || !context) {
-        alert('Please enter both a name and context.');
-        return;
-      }
-      const query = `"${name}" "${context}" AND ${keywords}`;
-      const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
-      window.open(url, '_blank');
-    }
-
-    document.getElementById('nameOnly').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') searchByName();
-    });
-
-    document.getElementById('context').addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') searchByNameAndContext();
+    // Enable "Enter" key to trigger the search
+    document.addEventListener('DOMContentLoaded', () => {
+      ['name1', 'name2', 'context'].forEach(id => {
+        const input = document.getElementById(id);
+        input.addEventListener('keypress', function (e) {
+          if (e.key === 'Enter') {
+            if (id === 'name1') searchGoogle('name1');
+            else searchGoogle('name2', 'context');
+          }
+        });
+      });
     });
   </script>
 </body>

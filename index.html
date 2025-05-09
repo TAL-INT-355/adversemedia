@@ -55,6 +55,16 @@
           </button>
         </div>
       </section>
+
+      <section class="search-section">
+        <h2>Explore Images</h2>
+        <button onclick="openGoogleImages()" class="button image-button">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="icon">
+            <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z" />
+          </svg>
+          Google Image Search
+        </button>
+      </section>
     </main>
 
     <footer>
@@ -76,9 +86,12 @@
       const name = document.getElementById("nameContext").value.trim();
       const context = document.getElementById("context").value.trim();
       if (!name || !context) return;
-      // Removed the quotes around the context variable
       const query = `"${name}" ${context}`;
       window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
+    }
+
+    function openGoogleImages() {
+      window.open("https://images.google.com/", "_blank");
     }
 
     function handleKeyPress(event, searchFunction) {

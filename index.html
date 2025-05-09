@@ -10,6 +10,7 @@
   <div class="container">
     <header>
       <h1>Adverse Media Search Tool</h1>
+      <p class="tagline">Discreetly search for relevant professional history.</p>
     </header>
 
     <main>
@@ -75,7 +76,8 @@
       const name = document.getElementById("nameContext").value.trim();
       const context = document.getElementById("context").value.trim();
       if (!name || !context) return;
-      const query = `"${name}" "${context}"`;
+      // Removed the quotes around the context variable
+      const query = `"${name}" ${context}`;
       window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
     }
 

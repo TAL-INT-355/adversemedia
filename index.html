@@ -1,57 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search Tool</title>
+  <title>Professional Background Search</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Search Tool</h1>
+  <div class="container">
+    <h1>Professional Background Search Tool</h1>
 
-  <h2>Search with Keywords</h2>
-  <label for="name1">Name:</label>
-  <input type="text" id="name1" placeholder="e.g. Ian Colle" required />
-  <button onclick="searchWithKeywords()">Search</button>
+    <!-- Primary Search -->
+    <div class="search-section">
+      <h2>Search by Name</h2>
+      <input type="text" id="name" placeholder="Enter full name" />
+      <button onclick="searchByName()" class="search-button">
+        🔍 Search
+      </button>
+    </div>
 
-  <h2>Search with Name + Context</h2>
-  <label for="name2">Name:</label>
-  <input type="text" id="name2" placeholder="e.g. Ian Colle" required />
-  <label for="context">Context (Company/Location):</label>
-  <input type="text" id="context" placeholder="e.g. Raytheon" />
-  <button onclick="searchWithContext()">Search</button>
+    <!-- Contextual Search -->
+    <div class="search-section">
+      <h2>Search by Name + Company/Location</h2>
+      <input type="text" id="nameContext" placeholder="Enter full name" />
+      <input type="text" id="context" placeholder="Enter company or location" />
+      <button onclick="searchWithContext()" class="search-button">
+        🔍 Search
+      </button>
+    </div>
+  </div>
 
   <script>
-    const keywords = '(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)';
+    const keywords = `(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)`;
 
-    function searchWithKeywords() {
-      const name = document.getElementById('name1').value.trim();
+    function searchByName() {
+      const name = document.getElementById("name").value.trim();
       if (!name) return;
       const query = `"${name}" AND ${keywords}`;
-      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-      window.open(url, '_blank');
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
     }
 
     function searchWithContext() {
-      const name = document.getElementById('name2').value.trim();
-      const context = document.getElementById('context').value.trim();
-      if (!name) return;
-      let query = `"${name}"`;
-      if (context) query += ` ${context}`;
-      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
-      window.open(url, '_blank');
+      const name = document.getElementById("nameContext").value.trim();
+      const context = document.getElementById("context").value.trim();
+      if (!name || !context) return;
+      const query = `"${name}" "${context}"`;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('name1').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') searchWithKeywords();
-      });
-      ['name2', 'context'].forEach(id => {
-        document.getElementById(id).addEventListener('keypress', function (e) {
-          if (e.key === 'Enter') searchWithContext();
-        });
-      });
-    });
   </script>
 </body>
 </html>

@@ -2,22 +2,51 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simple Google Search</title>
+  <title>Google Search Tool</title>
 </head>
 <body>
-  <h2>Test Search</h2>
-  <input type="text" id="searchTerm" placeholder="Type name..." />
-  <button onclick="searchGoogle()">Search</button>
+  <h2>Search by Name Only</h2>
+  <input type="text" id="nameOnly" placeholder="Enter name" />
+  <button onclick="searchByName()">Search</button>
+
+  <h2>Search by Name and Context</h2>
+  <input type="text" id="name" placeholder="Enter name" />
+  <input type="text" id="context" placeholder="Enter context (e.g., company or location)" />
+  <button onclick="searchByNameAndContext()">Search</button>
 
   <script>
-    function searchGoogle() {
-      const name = document.getElementById('searchTerm').value.trim();
-      if (!name) return alert('Please enter a name.');
-      const keywords = '(fraud OR arrest OR investigation)';
+    const keywords = '(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)';
+
+    function searchByName() {
+      const name = document.getElementById('nameOnly').value.trim();
+      if (!name) {
+        alert('Please enter a name.');
+        return;
+      }
       const query = `"${name}" AND ${keywords}`;
-      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
       window.open(url, '_blank');
     }
+
+    function searchByNameAndContext() {
+      const name = document.getElementById('name').value.trim();
+      const context = document.getElementById('context').value.trim();
+      if (!name || !context) {
+        alert('Please enter both a name and context.');
+        return;
+      }
+      const query = `"${name}" "${context}" AND ${keywords}`;
+      const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
+      window.open(url, '_blank');
+    }
+
+    document.getElementById('nameOnly').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') searchByName();
+    });
+
+    document.getElementById('context').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') searchByNameAndContext();
+    });
   </script>
 </body>
 </html>

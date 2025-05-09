@@ -59,6 +59,13 @@ main {
   padding-bottom: 10px;
 }
 
+.sub-header {
+  color: #777;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
 .input-group {
   display: flex;
   gap: 10px;
@@ -92,15 +99,6 @@ input[type="text"] {
 
 .primary-button:hover {
   background-color: #0056b3;
-}
-
-.secondary-button {
-  background-color: #6c757d; /* A modern secondary button color */
-  color: white;
-}
-
-.secondary-button:hover {
-  background-color: #545b62;
 }
 
 .icon {

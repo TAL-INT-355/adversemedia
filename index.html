@@ -3,29 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Google Search Builder</title>
+  <title>Dual Search Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      max-width: 700px;
+      margin: auto;
+    }
+    .search-section {
+      margin-bottom: 40px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input {
+      padding: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 5px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Google Search Builder</h1>
-  <form id="searchForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" placeholder="e.g. Ian Colle" required />
-    <button type="submit">Search</button>
-  </form>
+
+  <h2>Search 1: Name Only</h2>
+  <div class="search-section">
+    <label for="nameOnly">Full Name</label>
+    <input type="text" id="nameOnly" placeholder="e.g. Ian Colle" required />
+    <button onclick="performNameSearch()">Search</button>
+  </div>
+
+  <h2>Search 2: Name + Context</h2>
+  <div class="search-section">
+    <label for="nameWithContext">Full Name</label>
+    <input type="text" id="nameWithContext" placeholder="e.g. Ian Colle" required />
+
+    <label for="context">Context (Company or Location)</label>
+    <input type="text" id="context" placeholder="e.g. Raytheon" />
+
+    <button onclick="performContextSearch()">Search</button>
+  </div>
 
   <script>
-    const keywords = `(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)`;
+    const keywords = '(antitrust OR arrest OR arrested OR bankrupt OR bankruptcy OR breach OR bribe OR bribery OR charged OR charges OR cheat OR cheating OR "class action" OR compliance OR convict OR convicted OR conviction OR "conflict of interest" OR corrupt OR corruption OR "court order" OR crime OR criminal OR defendant OR discrimination OR "domestic violence" OR embezzle OR embezzled OR embezzlement OR evasion OR irregularities OR misconduct OR felony OR fraud OR fraudulent OR "GDPR violation" OR guilty OR harass OR harassed OR harassment OR "hate speech" OR trafficking OR "identity theft" OR illegal OR illegally OR improper OR indict OR indicted OR indictment OR injunction OR "insider trading" OR insolvency OR investigation OR irregularities OR kickback OR launder OR laundering OR lawsuit OR "legal challenge" OR liability OR litigation OR misappropriate OR misappropriation OR mismanagement OR nepotism OR penalty OR plagiarism OR "protection order" OR retaliation OR sanction OR sanctions OR scandal OR settlement OR "sexual harassment" OR slavery OR terrorism OR terrorist OR theft OR trafficking OR trial OR verdict OR violation OR violations OR whistleblower)
+';
 
-    document.getElementById("searchForm").addEventListener("submit", function (event) {
-      event.preventDefault();
-      const name = document.getElementById("name").value.trim();
-      if (!name) {
-        alert("Please enter a name.");
-        return;
-      }
+    function performNameSearch() {
+      const name = document.getElementById('nameOnly').value.trim();
+      if (!name) return alert('Please enter a name.');
       const query = `"${name}" AND ${keywords}`;
-      const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
-      window.open(url, "_blank");
+      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      window.open(url, '_blank');
+    }
+
+    function performContextSearch() {
+      const name = document.getElementById('nameWithContext').value.trim();
+      const context = document.getElementById('context').value.trim();
+      if (!name) return alert('Please enter a name.');
+      const fullNameContext = context ? `${name} ${context}` : name;
+      const query = `"${fullNameContext}" AND ${keywords}`;
+      const url = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+      window.open(url, '_blank');
+    }
+
+    // Allow Enter key to work for both forms
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const activeElement = document.activeElement;
+        if (activeElement.id === 'nameOnly') {
+          performNameSearch();
+        } else if (activeElement.id === 'nameWithContext' || activeElement.id === 'context') {
+          performContextSearch();
+        }
+      }
     });
   </script>
 </body>
